@@ -7,8 +7,6 @@ import Cookies from "js-cookie";
 function MdCreate() {
   const [value, setValue] = useState("**Hello world!!!**");
   const [filename, setFilename] = useState("");
-  const [key, setKey] = useState("");
-  const [confirmKey, setConfirmKey] = useState("");
 
   const saveMarkdown = async () => {
     const userName = Cookies.get('userName'); // Retrieve the username from the cookie
@@ -30,18 +28,6 @@ function MdCreate() {
         placeholder="Enter filename"
         value={filename}
         onChange={(e) => setFilename(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Enter encryption key"
-        value={key}
-        onChange={(e) => setKey(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Confirm encryption key"
-        value={confirmKey}
-        onChange={(e) => setConfirmKey(e.target.value)}
       />
       <div className="editor">
         <MDEditor value={value} onChange={setValue} />

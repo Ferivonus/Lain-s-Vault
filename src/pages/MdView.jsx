@@ -9,7 +9,6 @@ function MdView() {
   const [files, setFiles] = useState([]);
   const [selectedFile, setSelectedFile] = useState("");
   const [content, setContent] = useState("");
-  const [key, setKey] = useState("");
   const [viewMode, setViewMode] = useState(""); // 'system' or 'local' or empty
 
   useEffect(() => {
@@ -80,12 +79,6 @@ function MdView() {
               ))}
             </select>
           </div>
-          <input
-            type="password"
-            placeholder="Enter decryption key"
-            value={key}
-            onChange={(e) => setKey(e.target.value)}
-          />
           <button onClick={() => loadMarkdown(selectedFile)}>Load Markdown</button>
           <button className="back-button" onClick={() => setViewMode("")}>Back</button>
         </div>

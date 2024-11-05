@@ -23,3 +23,4 @@ tauri-plugin-shell = "2.0.2"
 serde = { version = "1.0.214", features = ["derive"] }
 serde_json = "1.0.132"
 sodiumoxide = "0.2.7"
+reqwest = { version = "0.12.9", features = ["json"] }
