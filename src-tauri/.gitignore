@@ -7,7 +7,7 @@
 /gen/schemas/
 
 # Ignore icons directory and its contents
-# /icons/
+/icons/
 
 # Ignore markdown_files directory and its contents
 /markdown_files/
