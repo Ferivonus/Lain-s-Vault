@@ -1,17 +1,13 @@
+// Home.jsx
 import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import Cookies from "js-cookie";
 
 function Home() {
   const [user_name, setUserName] = useState('');
-  const [user_names, setUserNames] = useState([]);
+  const [, setUserNames] = useState([]);
   const [message, setMessage] = useState('');
   const [connectionMessage, setConnectionMessage] = useState('');
-  
-  // State for file encryption/decryption
-  const [key, setKey] = useState('');
-  const [iv, setIv] = useState('');
-  const [excluded_files, setexcluded_files] = useState(['markdown_config.json']); // Excluded file
 
   useEffect(() => {
     const loadUserNames = async () => {
@@ -30,10 +26,9 @@ function Home() {
 
   const saveUserName = async () => {
     if (user_name) {
-      console.log(user_name);
       try {
-        Cookies.set('userName', user_name, { expires: 7 }); // Expires in 7 days
-        await invoke("save_user_name", { userName: user_name }); 
+        Cookies.set('userName', user_name, { expires: 7 }); // Store username in a cookie for 7 days
+        await invoke("save_user_name", { userName: user_name });
         setMessage(`User name saved as "${user_name}"`);
       } catch (error) {
         console.error("Error saving user name:", error);
@@ -51,38 +46,6 @@ function Home() {
     } catch (error) {
       console.error("Error checking connection:", error);
       setConnectionMessage("Failed to check connection.");
-    }
-  };
-
-  const encryptFiles = async () => {
-    try {
-      const filePath = Cookies.get("userName");
-      const result = await invoke("encrypt_files", { 
-        filePath, 
-        excludedFiles: excluded_files, 
-        key, 
-        iv 
-      });
-      setMessage(result);
-    } catch (error) {
-      console.error("Error encrypting files:", error);
-      setMessage("Failed to encrypt files.");
-    }
-  };
-
-  const decryptFiles = async () => {
-    try {
-      const filePath = Cookies.get("userName");
-      const result = await invoke("decrypt_files", { 
-        filePath, 
-        excludedFiles: excluded_files, 
-        key, 
-        iv 
-      });
-      setMessage(result);
-    } catch (error) {
-      console.error("Error decrypting files:", error);
-      setMessage("Failed to decrypt files.");
     }
   };
 
@@ -105,24 +68,6 @@ function Home() {
         <p>Current user: {user_name}</p>
         {message && <p>{message}</p>}
         {connectionMessage && <p>{connectionMessage}</p>}
-      </div>
-
-      <div>
-        <h2>File Encryption/Decryption</h2>
-        <input
-          type="text"
-          placeholder="Encryption Key"
-          value={key}
-          onChange={(e) => setKey(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Initialization Vector (IV)"
-          value={iv}
-          onChange={(e) => setIv(e.target.value)}
-        />
-        <button onClick={encryptFiles}>Encrypt Files</button>
-        <button onClick={decryptFiles}>Decrypt Files</button>
       </div>
     </div>
   );

@@ -7,7 +7,10 @@ use tauri::Manager;
 
 const CONFIG_FILE: &str = "markdown_files/markdown_config.json";
 const DEFAULT_MARKDOWN_DIR: &str = "markdown_files";
-const CSHARP_API_URL: &str = "http://localhost:5000/Lain"; //  C# API's base URL
+// C# API's base URL production api:
+// const CSHARP_API_URL: &str = "http://localhost:5000/Lain";
+// C# API's base URL debug use api:
+const CSHARP_API_URL: &str = "https://localhost:7102/Lain";
 
 fn read_config() -> Result<Value, String> {
     match create_dir_all(DEFAULT_MARKDOWN_DIR) {
@@ -284,6 +287,13 @@ pub fn run() {
             check_connection
         ])
         .setup(|app| {
+            // Start the microservice by running the command
+            /*
+            if let Err(e) = Command::new("lain vault.exe").spawn() {
+                 eprintln!("Failed to start the microservice: {:?}", e);
+             }
+
+             */
             let main_window = app.get_webview_window("main").unwrap();
             main_window.set_title("Lain’s Vault").unwrap();
             Ok(())
